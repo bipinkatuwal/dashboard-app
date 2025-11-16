@@ -1,21 +1,15 @@
-import { useEffect } from "react";
-import type { AppDispatch, RootState } from "./store";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData } from "./store/users/usersSlice";
+import { useState } from "react";
+import Sidebar from "./components/Sidebar";
+import MainContent from "./components/MainContent";
 
 function App() {
-  const dispatch = useDispatch<AppDispatch>();
-  const { users, loading, error } = useSelector(
-    (state: RootState) => state.users
+  const [activeView, setActiveView] = useState("home");
+  return (
+    <main className="flex min-h-screen">
+      <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      <MainContent activeView={activeView} />
+    </main>
   );
-
-  console.log(users, loading, error);
-
-  useEffect(() => {
-    dispatch(fetchUserData({ page: 2, limit: 10 }));
-  }, [dispatch]);
-
-  return <h2 className="text-center">Hello world</h2>;
 }
 
 export default App;
