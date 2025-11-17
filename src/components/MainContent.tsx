@@ -4,8 +4,8 @@ import ThemeToggler from "./ThemeToggler";
 
 const MainContent = ({ activeView }: { activeView: string }) => {
   return (
-    <div className="flex-1 bg-primary p-8">
-      <div className="relative max-w-7xl mx-auto flex flex-col">
+    <div className="flex-1 bg-primary overflow-hidden h-screen">
+      <div className="relative max-w-7xl mx-auto flex flex-col h-full">
         <ThemeToggler />
         {activeView === "home" ? <Home /> : <Data />}
       </div>

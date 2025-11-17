@@ -49,4 +49,5 @@ const usersSlice = createSlice({
 
 export const { setSearchQuery, setPage, clearUserDataError } =
   usersSlice.actions;
+
 export default usersSlice.reducer;
