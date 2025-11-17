@@ -22,7 +22,7 @@ const ThemeToggler = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   return (
-    <div ref={dropDownRef} className="realtive flex justify-end">
+    <div ref={dropDownRef} className="realtive flex justify-end px-8 pt-2">
       <button
         onClick={() => setThemeToggle((value) => !value)}
         className="cursor-pointer p-2.5 hover:bg-primary-hover w-fit rounded-lg"
