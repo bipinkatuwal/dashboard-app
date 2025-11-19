@@ -39,4 +39,5 @@ export interface UsersState {
   page: number;
   usersPerPage: number;
   totalUsers: number;
+  isSearching: boolean;
 }

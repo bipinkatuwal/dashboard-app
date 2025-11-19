@@ -10,6 +10,7 @@ const initialState: UsersState = {
   page: 1,
   usersPerPage: 10,
   totalUsers: 0,
+  isSearching: false,
 };
 
 const usersSlice = createSlice({
@@ -19,6 +20,7 @@ const usersSlice = createSlice({
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
       state.page = 1;
+      state.isSearching = !!action.payload.trim();
     },
     setPage: (state, action) => {
       state.page = Number(action.payload);
@@ -39,6 +41,10 @@ const usersSlice = createSlice({
         state.totalUsers = action.payload.total;
         state.page = action.payload.page;
         state.error = null;
+        // Update isSearching based on whether this was a search request
+        if (action.payload.isSearch !== undefined) {
+          state.isSearching = action.payload.isSearch;
+        }
       })
       .addCase(fetchUserData.rejected, (state, action) => {
         state.loading = false;

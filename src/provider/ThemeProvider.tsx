@@ -4,7 +4,7 @@ type ThemeType = "light" | "dark" | "system";
 
 export const ThemeContext = createContext({
   theme: "system" as ThemeType,
-  setThemeMode: (mode: ThemeType) => {},
+  setThemeMode: (_mode: ThemeType) => {},
 });
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
