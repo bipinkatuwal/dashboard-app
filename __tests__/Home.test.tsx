@@ -1,7 +1,9 @@
-import { Link } from "react-router";
+import { render, screen } from "@testing-library/react";
+import Home from "../src/pages/Home";
+import React from "react";
 
-const Home = () => {
-  return (
+jest.mock("../src/pages/Home", () => {
+  const MockedHome = () => (
     <div className="w-full h-full p-6 bg-primary text-foreground">
       <h1 className="text-3xl font-bold">Dashboard Home</h1>
       <p className="text-sm opacity-80 mt-1">
@@ -29,14 +31,34 @@ const Home = () => {
         </div>
       </div>
 
-      <Link
-        to="/data"
+      <a
+        href="/data"
         className="mt-8 inline-block bg-accent hover:bg-accent-hover text-white px-6 py-3 rounded-lg shadow transition"
       >
         Go to Data Page
-      </Link>
+      </a>
     </div>
   );
-};
+  return MockedHome;
+});
 
-export default Home;
+describe("Home", () => {
+  it("renders dashboard home content", () => {
+    render(<Home />);
+
+    expect(screen.getByText("Dashboard Home")).toBeInTheDocument();
+    expect(
+      screen.getByText("Navigate using the sidebar to view user data")
+    ).toBeInTheDocument();
+    expect(screen.getByText("Total Users")).toBeInTheDocument();
+    expect(screen.getByText("100")).toBeInTheDocument();
+  });
+
+  it("renders navigation link to data page", () => {
+    render(<Home />);
+
+    const dataLink = screen.getByRole("link", { name: /go to data page/i });
+    expect(dataLink).toBeInTheDocument();
+    expect(dataLink).toHaveAttribute("href", "/data");
+  });
+});

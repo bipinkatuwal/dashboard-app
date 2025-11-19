@@ -4,15 +4,28 @@ import type { DummyJsonResponse } from "../../types/user";
 export const fetchUserData = createAsyncThunk(
   "users/fetchUsers",
   async (
-    { page = 1, limit = 10 }: { page: number; limit: number },
+    {
+      page = 1,
+      limit = 10,
+      searchQuery = "",
+    }: { page: number; limit: number; searchQuery?: string },
     { rejectWithValue }
   ) => {
     try {
-      const skip = (page - 1) * limit;
+      let url: string;
 
-      const response = await fetch(
-        `https://dummyjson.com/users?limit=${limit}&skip=${skip}`
-      );
+      if (searchQuery.trim()) {
+        // When searching, fetch all users and filter on the server side
+        url = `https://dummyjson.com/users/search?q=${encodeURIComponent(
+          searchQuery
+        )}`;
+      } else {
+        // Normal pagination
+        const skip = (page - 1) * limit;
+        url = `https://dummyjson.com/users?limit=${limit}&skip=${skip}`;
+      }
+
+      const response = await fetch(url);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -24,6 +37,7 @@ export const fetchUserData = createAsyncThunk(
         users: data.users,
         total: data.total,
         page,
+        isSearch: !!searchQuery.trim(),
       };
     } catch (error: any) {
       console.error("Fetch error:", error);
